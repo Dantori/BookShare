@@ -1,7 +1,6 @@
 package ru.trofimov.bookshare.domain.book;
 
 import jakarta.persistence.*;
-import ru.trofimov.bookshare.domain.user.User;
 
 @Entity
 @Table(name = "t_books", schema = "s_bookshare")
@@ -10,11 +9,11 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
     private String name;
     private String description;
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
     public Long getId() {
@@ -25,12 +24,12 @@ public class Book {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
