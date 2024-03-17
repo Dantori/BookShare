@@ -14,12 +14,12 @@ public class UserDto {
     @NotNull(message = "Id must be not null!", groups = OnUpdate.class)
     private Long id;
 
-    @Schema(description = "User name", example = "Ilya Trofimov")
+    @Schema(description = "User name", example = "Илья")
     @NotNull(message = "Name must be not null!", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Name length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
-    @Schema(description = "User email", example = "ilya_trofimov@gmail.com")
+    @Schema(description = "User email", example = "ilya@mail.ru")
     @NotNull(message = "Username must be not null!", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Username length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String username;
@@ -29,12 +29,12 @@ public class UserDto {
     @Length(max = 255, message = "User city length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String city;
 
-    @Schema(description = "User encrypted password", example = "$2a$10$JYYXLjRakzPfUlfno25ZAeegfZNauWQv3k3UtmMmm1dCff4ZZK0bq")
+    @Schema(description = "User encrypted password", example = "111")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password must be not null!", groups = {OnCreate.class, OnUpdate.class})
     private String password;
 
-    @Schema(description = "User password confirmation", example = "$2a$10$JYYXLjRakzPfUlfno25ZAeegfZNauWQv3k3UtmMmm1dCff4ZZK0bq")
+    @Schema(description = "User password confirmation", example = "111")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password confirmation must be not null!", groups = OnCreate.class)
     private String passwordConfirm;

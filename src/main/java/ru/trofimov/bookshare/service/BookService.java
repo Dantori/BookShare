@@ -1,7 +1,6 @@
 package ru.trofimov.bookshare.service;
 
 import ru.trofimov.bookshare.domain.book.Book;
-import ru.trofimov.bookshare.domain.user.User;
 
 import java.util.List;
 
