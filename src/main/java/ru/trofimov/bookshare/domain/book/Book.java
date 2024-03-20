@@ -15,6 +15,15 @@ public class Book {
     private String description;
     @Enumerated(value = EnumType.STRING)
     private Status status;
+    private boolean isRequested = false;
+
+    public boolean isRequested() {
+        return isRequested;
+    }
+
+    public void setRequested(boolean requested) {
+        isRequested = requested;
+    }
 
     public Long getId() {
         return id;

@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.trofimov.bookshare.domain.user.Role;
 import ru.trofimov.bookshare.domain.user.User;
 import ru.trofimov.bookshare.repository.UserRepository;
 import ru.trofimov.bookshare.service.UserService;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("Password and password confirmation do not match!");
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(Role.ROLE_USER);
+            user.setRole("USER");
             userRepository.save(user);
         }
     }
@@ -43,6 +42,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> userFromDB = userRepository.findById(id);
         return userFromDB
                 .orElseThrow(() -> new EntityNotFoundException("User [" + id + "] not found!"));
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Optional<User> userFromDb = userRepository.findUserByUsername(username);
+        return userFromDb
+                .orElseThrow(() -> new EntityNotFoundException("User [" + username + "] not found!"));
     }
 
     @Override

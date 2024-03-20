@@ -56,6 +56,12 @@ public class BookController {
         bookService.updateBook(bookMapper.toEntity(bookDto), id);
     }
 
+    @PostMapping("request/{id}")
+    @Operation(summary = "Request book by id")
+    public void requestBook(@PathVariable Long id) {
+        bookService.requestBook(id);
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete book by id")
     public void deleteUser(@PathVariable Long id) {

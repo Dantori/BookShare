@@ -15,5 +15,6 @@ CREATE TABLE IF NOT EXISTS s_bookshare.t_books
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     status      VARCHAR(255) NOT NULL,
+    is_requested BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES s_bookshare.t_users (id)
 );

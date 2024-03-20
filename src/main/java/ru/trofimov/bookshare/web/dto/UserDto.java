@@ -29,7 +29,7 @@ public class UserDto {
     @Length(max = 255, message = "User city length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String city;
 
-    @Schema(description = "User encrypted password", example = "111")
+    @Schema(description = "User password", example = "111")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password must be not null!", groups = {OnCreate.class, OnUpdate.class})
     private String password;
