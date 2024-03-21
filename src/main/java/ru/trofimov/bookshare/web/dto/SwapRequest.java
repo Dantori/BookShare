@@ -6,16 +6,16 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "SwapRequest DTO")
 public class SwapRequest {
 
-    @Schema(description = "Id просителя", example = "1")
+    @Schema(description = "Id просителя", example = "2")
     @NotNull(message = "Requester id must be not null!")
     private final Long reqId;
-    @Schema(description = "Id книги просителя", example = "2")
+    @Schema(description = "Id книги просителя", example = "4")
     @NotNull(message = "Requester's book id must be not null!")
     private final Long reqBookId;
-    @Schema(description = "Id ответчика", example = "2")
+    @Schema(description = "Id ответчика", example = "1")
     @NotNull(message = "Responder id must be not null!")
     private final Long resId;
-    @Schema(description = "Id книги ответчика", example = "4")
+    @Schema(description = "Id книги ответчика", example = "1")
     @NotNull(message = "Responder's book id must be not null!")
     private final Long resBookId;
 

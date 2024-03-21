@@ -8,6 +8,7 @@ import ru.trofimov.bookshare.domain.swap.Swap;
 import ru.trofimov.bookshare.domain.user.User;
 import ru.trofimov.bookshare.repository.SwapRepository;
 import ru.trofimov.bookshare.service.BookService;
+import ru.trofimov.bookshare.service.EmailService;
 import ru.trofimov.bookshare.service.SwapService;
 import ru.trofimov.bookshare.service.UserService;
 import ru.trofimov.bookshare.web.dto.SwapDto;
@@ -24,11 +25,14 @@ public class SwapServiceImpl implements SwapService {
     private final UserService userService;
     private final BookService bookService;
     private final SwapRepository swapRepository;
+    private final EmailService emailService;
 
-    public SwapServiceImpl(UserService userService, BookService bookService, SwapRepository swapRepository) {
+    public SwapServiceImpl(UserService userService, BookService bookService, SwapRepository swapRepository,
+                           EmailService emailService) {
         this.userService = userService;
         this.bookService = bookService;
         this.swapRepository = swapRepository;
+        this.emailService = emailService;
     }
 
 
@@ -88,11 +92,12 @@ public class SwapServiceImpl implements SwapService {
                 swapRequest.getReqId(),
                 swapRequest.getReqBookId(),
                 swapRequest.getResId(),
-                swapRequest.getResBookId());
+                swapRequest.getResBookId()
+        );
 
         swapRepository.save(swap);
 
-        return new SwapDto(
+        SwapDto swapDto = new SwapDto(
                 requester.getName(),
                 requester.getCity(),
                 requesterBook.getName(),
@@ -100,6 +105,15 @@ public class SwapServiceImpl implements SwapService {
                 responder.getCity(),
                 responderBook.getName()
         );
+
+        final String body = "Пользователь " + requester.getName() +
+                " c email: " + requester.getUsername() +
+                " хочет поменять свою книгу: " + responderBook.getName() +
+                " на вашу книгу: " + requesterBook.getName();
+
+        emailService.sendEmailToUser(responder.getUsername(), "BookShare: ЗАПРОС НА ОБМЕН.", body);
+
+        return swapDto;
     }
 
     @Override

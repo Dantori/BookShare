@@ -18,3 +18,17 @@ spring:
     change-log: classpath:liquibase/db.changelog.yaml
     enabled: true
     default-schema: s_bookshare
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bookshareapp598@gmail.com
+    password: njveflemejirtejk
+    properties:
+      mail:
+        debug: false
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
