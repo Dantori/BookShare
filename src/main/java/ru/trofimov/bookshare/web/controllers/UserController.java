@@ -28,32 +28,32 @@ public class UserController {
     }
 
     @PostMapping("/add_user")
-    @Operation(summary = "Add user by id")
+    @Operation(summary = "Добавить пользователя по id")
     public void addUser(@Validated(OnCreate.class) @RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         userService.addUser(user);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get user by id")
+    @Operation(summary = "Получить пользователя по id")
     public UserDto getUser(@PathVariable Long id) {
         return userMapper.toDto(userService.getUserById(id));
     }
 
     @GetMapping("/get_all_users")
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Получить всех пользователей по id")
     public List<UserDto> getAllUsers() {
         return userMapper.toDto(userService.getAllUsers());
     }
 
     @PostMapping("/update/{id}")
-    @Operation(summary = "Update user by id")
+    @Operation(summary = "Обновить пользователя по id")
     public void updateUser(@Validated(OnUpdate.class) @RequestBody UserDto userDto, @PathVariable Long id) {
         userService.updateUser(userMapper.toEntity(userDto), id);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete user by id")
+    @Operation(summary = "Удалить пользователя по id")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
     }

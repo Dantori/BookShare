@@ -10,31 +10,31 @@ import ru.trofimov.bookshare.web.validation.OnUpdate;
 @Schema(description = "User DTO")
 public class UserDto {
 
-    @Schema(description = "User id", example = "1")
+    @Schema(description = "Id пользователя", example = "1")
     @NotNull(message = "Id must be not null!", groups = OnUpdate.class)
     private Long id;
 
-    @Schema(description = "User name", example = "Илья")
+    @Schema(description = "Имя пользователя", example = "Илья")
     @NotNull(message = "Name must be not null!", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Name length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
-    @Schema(description = "User email", example = "ilya@mail.ru")
+    @Schema(description = "Email пользователя", example = "ilya@gmail.ru")
     @NotNull(message = "Username must be not null!", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Username length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String username;
 
-    @Schema(description = "User city", example = "Рязань")
+    @Schema(description = "Город пользователя", example = "Рязань")
     @NotNull(message = "User city must be not null!", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "User city length mast be smaller than 255", groups = {OnCreate.class, OnUpdate.class})
     private String city;
 
-    @Schema(description = "User encrypted password", example = "111")
+    @Schema(description = "Пароль пользователя", example = "111")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password must be not null!", groups = {OnCreate.class, OnUpdate.class})
     private String password;
 
-    @Schema(description = "User password confirmation", example = "111")
+    @Schema(description = "Подтверждение пароля пользователя", example = "111")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Password confirmation must be not null!", groups = OnCreate.class)
     private String passwordConfirm;

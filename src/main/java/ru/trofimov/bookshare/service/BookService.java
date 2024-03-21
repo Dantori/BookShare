@@ -10,6 +10,6 @@ public interface BookService {
     Book getBookById(Long id);
     List<Book> getAllBooks();
     List<Book> getAllBookByUserId(Long userId);
-    void updateBook(Book book, Long id);
+    void updateBook(Book book, Long userId);
     void deleteBookById(Long id);
 }

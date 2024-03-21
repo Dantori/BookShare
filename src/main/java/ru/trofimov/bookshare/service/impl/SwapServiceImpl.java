@@ -1,44 +1,101 @@
 package ru.trofimov.bookshare.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.trofimov.bookshare.domain.book.Book;
 import ru.trofimov.bookshare.domain.book.Status;
+import ru.trofimov.bookshare.domain.swap.Swap;
 import ru.trofimov.bookshare.domain.user.User;
+import ru.trofimov.bookshare.repository.SwapRepository;
 import ru.trofimov.bookshare.service.BookService;
 import ru.trofimov.bookshare.service.SwapService;
 import ru.trofimov.bookshare.service.UserService;
 import ru.trofimov.bookshare.web.dto.SwapDto;
+import ru.trofimov.bookshare.web.dto.SwapRequest;
+import ru.trofimov.bookshare.web.dto.SwapViewDto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SwapServiceImpl implements SwapService {
 
     private final UserService userService;
     private final BookService bookService;
+    private final SwapRepository swapRepository;
 
-    public SwapServiceImpl(UserService userService, BookService bookService) {
+    public SwapServiceImpl(UserService userService, BookService bookService, SwapRepository swapRepository) {
         this.userService = userService;
         this.bookService = bookService;
+        this.swapRepository = swapRepository;
+    }
+
+
+    @Override
+    public List<SwapViewDto> getRequests(Long reqId) {
+        ArrayList<Swap> swaps = (ArrayList<Swap>) swapRepository.findByReqId(reqId);
+        ArrayList<SwapViewDto> swapViewDtos = new ArrayList<>();
+        for (Swap swap : swaps) {
+            Book requesterBook = bookService.getBookById(swap.getReqBookId());
+            Book responderBook = bookService.getBookById(swap.getResBookId());
+            swapViewDtos.add(new SwapViewDto(swap.getId(), requesterBook.getName(), responderBook.getName()));
+        }
+        return swapViewDtos;
     }
 
     @Override
-    public SwapDto swapBooks(Long reqId, Long reqBookId, Long resId, Long resBookId) {
-        User requester = userService.getUserById(reqId);
-        User responder = userService.getUserById(resId);
-        Book requestersBook = bookService.getBookById(reqBookId);
-        Book responderBook = bookService.getBookById(resBookId);
+    public SwapDto swapBooks(Long swapId) {
+        Optional<Swap> swap = swapRepository.findById(swapId);
+        if (swap.isPresent()) {
+            User requester = userService.getUserById(swap.get().getReqId());
+            User responder = userService.getUserById(swap.get().getResId());
+            Book requesterBook = bookService.getBookById(swap.get().getReqBookId());
+            Book responderBook = bookService.getBookById(swap.get().getResBookId());
 
-        requestersBook.setStatus(Status.IN_EXCHANGE);
+            requesterBook.setUserId(swap.get().getResId());
+            responderBook.setUserId(swap.get().getReqId());
+            requesterBook.setStatus(Status.AVAILABLE);
+            responderBook.setStatus(Status.AVAILABLE);
+            bookService.updateBook(requesterBook, swap.get().getReqBookId());
+            bookService.updateBook(responderBook, swap.get().getResBookId());
+
+            swapRepository.deleteById(swapId);
+
+            return new SwapDto(
+                    requester.getName(),
+                    requester.getCity(),
+                    requesterBook.getName(),
+                    responder.getName(),
+                    responder.getCity(),
+                    responderBook.getName());
+        } else {
+            throw new EntityNotFoundException("Swap [" + swapId + "] not found!");
+        }
+    }
+
+    @Override
+    public SwapDto swapRequest(SwapRequest swapRequest) {
+        User requester = userService.getUserById(swapRequest.getReqId());
+        User responder = userService.getUserById(swapRequest.getResId());
+        Book requesterBook = bookService.getBookById(swapRequest.getReqBookId());
+        Book responderBook = bookService.getBookById(swapRequest.getResBookId());
+
+        requesterBook.setStatus(Status.IN_EXCHANGE);
         responderBook.setStatus(Status.IN_EXCHANGE);
 
-        requestersBook.setUserId(resId);
-        bookService.updateBook(requestersBook, reqBookId);
-        responderBook.setUserId(reqId);
-        bookService.updateBook(responderBook, resBookId);
+        Swap swap = new Swap(
+                swapRequest.getReqId(),
+                swapRequest.getReqBookId(),
+                swapRequest.getResId(),
+                swapRequest.getResBookId());
+
+        swapRepository.save(swap);
 
         return new SwapDto(
                 requester.getName(),
                 requester.getCity(),
-                requestersBook.getName(),
+                requesterBook.getName(),
                 responder.getName(),
                 responder.getCity(),
                 responderBook.getName()

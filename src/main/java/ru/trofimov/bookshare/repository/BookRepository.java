@@ -1,5 +1,6 @@
 package ru.trofimov.bookshare.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.trofimov.bookshare.domain.book.Book;
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     Collection<Book> findAllByUserId(Long userId);
+    Optional<Book> findByIdAndUserId(Long id, Long userId);
 }

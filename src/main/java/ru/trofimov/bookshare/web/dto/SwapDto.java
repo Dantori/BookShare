@@ -6,22 +6,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class SwapDto {
 
     @Schema(description = "Requester name", example = "Илья")
-    private String requesterName;
+    private final String requesterName;
 
     @Schema(description = "Requester city", example = "Рязань")
-    private String requesterCity;
+    private final String requesterCity;
 
     @Schema(description = "Requester's book name", example = "Преступление и наказание")
-    private String requestersBookName;
+    private final String requestersBookName;
 
     @Schema(description = "Responder name", example = "Филип")
-    private String responderName;
+    private final String responderName;
 
     @Schema(description = "Responder city", example = "Москва")
-    private String responderCity;
+    private final String responderCity;
 
     @Schema(description = "Responder's book name", example = "Гарри Поттер и философский камень")
-    private String responderBookName;
+    private final String responderBookName;
 
     public SwapDto(String requesterName, String requesterCity, String requestersBookName, String responderName,
                    String responderCity, String responderBookName) {
@@ -33,51 +33,21 @@ public class SwapDto {
         this.responderBookName = responderBookName;
     }
 
-    public String getRequesterName() {
-        return requesterName;
-    }
-
-    public void setRequesterName(String requesterName) {
-        this.requesterName = requesterName;
-    }
-
+    public String getRequesterName() {return requesterName;}
     public String getRequesterCity() {
         return requesterCity;
     }
-
-    public void setRequesterCity(String requesterCity) {
-        this.requesterCity = requesterCity;
-    }
-
     public String getRequestersBookName() {
         return requestersBookName;
     }
-
-    public void setRequestersBookName(String requestersBookName) {
-        this.requestersBookName = requestersBookName;
-    }
-
     public String getResponderName() {
         return responderName;
     }
-
-    public void setResponderName(String responderName) {
-        this.responderName = responderName;
-    }
-
     public String getResponderCity() {
         return responderCity;
     }
-
-    public void setResponderCity(String responderCity) {
-        this.responderCity = responderCity;
-    }
-
     public String getResponderBookName() {
         return responderBookName;
     }
 
-    public void setResponderBookName(String responderBookName) {
-        this.responderBookName = responderBookName;
-    }
 }

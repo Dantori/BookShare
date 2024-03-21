@@ -15,5 +15,15 @@ CREATE TABLE IF NOT EXISTS s_bookshare.t_books
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     status      VARCHAR(255) NOT NULL,
+
     FOREIGN KEY (user_id) REFERENCES s_bookshare.t_users (id)
+);
+
+CREATE TABLE IF NOT EXISTS s_bookshare.t_swap
+(
+    id          BIGSERIAL PRIMARY KEY,
+    req_id      BIGSERIAL,
+    req_book_id BIGSERIAL,
+    res_id      BIGSERIAL,
+    res_book_id BIGSERIAL
 );

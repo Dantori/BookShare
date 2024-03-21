@@ -6,18 +6,25 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "SwapRequest DTO")
 public class SwapRequest {
 
-    @Schema(description = "Requester id", example = "1")
+    @Schema(description = "Id просителя", example = "1")
     @NotNull(message = "Requester id must be not null!")
-    private Long reqId;
-    @Schema(description = "Requester's book id", example = "2")
+    private final Long reqId;
+    @Schema(description = "Id книги просителя", example = "2")
     @NotNull(message = "Requester's book id must be not null!")
-    private Long reqBookId;
-    @Schema(description = "Responder id", example = "2")
+    private final Long reqBookId;
+    @Schema(description = "Id ответчика", example = "2")
     @NotNull(message = "Responder id must be not null!")
-    private Long resId;
-    @Schema(description = "Responder's book id", example = "4")
+    private final Long resId;
+    @Schema(description = "Id книги ответчика", example = "4")
     @NotNull(message = "Responder's book id must be not null!")
-    private Long resBookId;
+    private final Long resBookId;
+
+    public SwapRequest(Long reqId, Long reqBookId, Long resId, Long resBookId) {
+        this.reqId = reqId;
+        this.reqBookId = reqBookId;
+        this.resId = resId;
+        this.resBookId = resBookId;
+    }
 
     public Long getReqId() {
         return reqId;
