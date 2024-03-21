@@ -4,8 +4,11 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.trofimov.bookshare.domain.book.Book;
 import ru.trofimov.bookshare.domain.book.Status;
+import ru.trofimov.bookshare.domain.user.User;
 import ru.trofimov.bookshare.repository.BookRepository;
 import ru.trofimov.bookshare.service.BookService;
+import ru.trofimov.bookshare.service.UserService;
+import ru.trofimov.bookshare.web.dto.SwapDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +17,11 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final UserService userService;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, UserService userService) {
         this.bookRepository = bookRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -60,17 +65,6 @@ public class BookServiceImpl implements BookService {
         Optional<Book> bookFromDb = bookRepository.findById(id);
         if (bookFromDb.isPresent()) {
             bookRepository.deleteById(id);
-        } else {
-            throw new IllegalStateException("Book [" + id + "] not exists!");
-        }
-    }
-
-    @Override
-    public void requestBook(Long id) {
-        Optional<Book> requestedBook = bookRepository.findById(id);
-        if (requestedBook.isPresent()) {
-            requestedBook.get().setRequested(true);
-            bookRepository.save(requestedBook.get());
         } else {
             throw new IllegalStateException("Book [" + id + "] not exists!");
         }

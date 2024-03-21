@@ -12,7 +12,8 @@ public class User {
     private String name;
     private String username;
     private String city;
-    private String role;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
     private String password;
     @Transient
     private String passwordConfirm;
@@ -49,11 +50,11 @@ public class User {
         this.city = city;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
